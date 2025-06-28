@@ -1,24 +1,18 @@
-// components/DashboardLayout.tsx
-// NO "use client" directive here
-
 import React from "react";
 import Link from "next/link";
-
-// Import icons from react-icons
-// Make sure to install react-icons: npm install react-icons
 import {
-    FaHome,        // For Home
-    FaUser,        // For User Profile
-    FaCalendarAlt, // For Calendar/Schedule
-    FaDumbbell,    // For Workouts/Routines (more directly gym-related)
-    FaCog,         // For Settings
+    FaUser,
+    FaHome, 
+    FaCalendarAlt, 
+    FaDumbbell,   
     FaSignOutAlt,  // For Sign Out
-} from "react-icons/fa"; // Using Font Awesome 5 Free icons as an example
+} from "react-icons/fa"; 
 
-import { cn } from "@/src/lib/utils"; // For conditional class merging
+import { cn } from "@/src/lib/utils";
 import { verifySession } from "@/src/auth/dal";
+import { logoutUserAction } from "@/actions/auth/logout-user-action";
+import MenuOptions from "@/components/dashboard/MenuOptions";
 
-// Define navigation items with updated icons for better thematic representation
 const navItems = [
     { href: "/dashboard", label: "Inicio", icon: FaHome },
     { href: "/dashboard/profile", label: "Mi Perfil", icon: FaUser },
@@ -40,7 +34,18 @@ export default async function DashboardLayout({
 
     const { user } = await verifySession();
 
-    console.log("User in DashboardLayout:", user);
+    // Redirect if user is not admin
+    if (!user.role || user.role !== "ADMIN") {
+        console.error("Unauthorized access attempt by user:", user);
+        return (
+            <div className="flex items-center justify-center min-h-screen bg-gray-100">
+                <div className="text-center">
+                    <h1 className="text-2xl font-bold text-red-600">Acceso Denegado</h1>
+                    <p className="mt-4 text-gray-600">No tienes permiso para acceder a esta página.</p>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="flex min-h-screen bg-gray-50 text-gray-800 font-sans antialiased">
@@ -83,10 +88,11 @@ export default async function DashboardLayout({
 
                 {/* Logout Button - Distinct and clear */}
                 <div className="mt-8 pt-6 border-t border-gray-200">
-                    <button className="flex items-center gap-3 w-full text-sm text-gray-700 hover:text-red-600 transition-all duration-200">
-                        <FaSignOutAlt size={20} className="text-red-500" />
-                        Cerrar sesión
-                    </button>
+
+                    <MenuOptions 
+                        user={user}
+                    />
+                   
                 </div>
             </aside>
 

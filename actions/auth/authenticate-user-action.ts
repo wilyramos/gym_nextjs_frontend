@@ -61,7 +61,7 @@ export async function authenticateUserAction(
     const { user, access_token } = parsedData.data;
 
     // Guardar token en cookies
-    (await cookies()).set("token", parsedData.data.access_token, {
+    (await cookies()).set("token_gym", parsedData.data.access_token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         path: "/",
