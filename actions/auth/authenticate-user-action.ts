@@ -69,7 +69,7 @@ export async function authenticateUserAction(
 
     switch (user.role) {
         case "ADMIN":
-            redirect("/admin/dashboard");
+            redirect("/dashboard");
         case "TRAINER":
             redirect("/trainer/dashboard");
         case "CLIENT":
