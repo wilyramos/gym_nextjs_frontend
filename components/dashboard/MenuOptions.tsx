@@ -46,7 +46,7 @@ export default function MenuOptions({ user }: MenuOptionsProps) {
                     <ul className="text-sm text-gray-800 space-y-1">
                         <li>
                             <Link
-                                href="/admin/profile/settings"
+                                href="/dashboard/profile/settings"
                                 className="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-gray-100 transition"
                             >
                                 <FaUserCog size={16} className="text-gray-600" />
