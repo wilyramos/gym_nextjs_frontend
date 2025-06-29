@@ -31,6 +31,31 @@ export const getUsers = async () => {
     return data;
 };
 
+export const getTrainers = async () => {
+    const token = await getToken();
+
+    const url = `${process.env.API_URL}/users?role=TRAINER`;
+    const res = await fetch(url, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+        },
+    });
+
+    if (!res.ok) {
+        throw new Error("Error fetching trainers");
+    }
+
+    const json = await res.json();
+    console.log("Respuesta de la API:", json);
+
+    const data = GetUsersResponseSchema.parse(json);
+
+    return data;
+
+}
+
 
 export const getUserById = async (userId: number) => {
     const token = await getToken();
